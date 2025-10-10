@@ -27,9 +27,9 @@ void Person::displayInfo() const {
   std::cout << "Birthdate: " << birthdate << std::endl;
 }
 
-//bool Person::operator<(const Person& other) const {
-//        return age < other.age;
-//}
+bool Person::operator<(const Person& other) const {
+        return age < other.age;
+}
 
 std::string generateRandomName(size_t length) {
     // A string of all possible letters for the name

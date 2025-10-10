@@ -17,7 +17,7 @@ public:
   int getAge() const;
   std::string getBirthdate() const;
   void displayInfo() const;
-  //bool operator<(const Person& other) const;
+  bool operator<(const Person& other) const;
 };
 
 std::string generateRandomName(size_t length);
