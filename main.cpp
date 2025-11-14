@@ -1,49 +1,41 @@
-#include <functional>
+#include <ctime>
+#include <cstdlib>
 #include <iostream>
-#include <queue>
-#include <string_view>
-#include <string>
-#include <sstream>
-#include <vector>
-#include "person.h"
-#include "utils.h"
 
-using namespace utils;
+#include "HashSet.h"
+
 using namespace std;
 
-void init_people_queue(priority_queue<Person> *people_queue, int n) {
-  for (int i = 0; i < n; i++) {
-    int age = generateRandomInt(1,100);
-    ostringstream oss;
-    oss << 2025-age << "-" << generateRandomInt(1,12) << "-" << generateRandomInt(1,30);
-    string birthdate = oss.str();
-    Person new_person(generateRandomName(10), age, birthdate);
-    people_queue->push(new_person);
+void initHashSet(HashSet &hs, int* values){
+  for (int i = 0; i < 20; ++i){
+    hs.add(values[i]);
   }
 }
 
-int main() {
-    std::priority_queue<Person> people_by_age;
+int main(){
 
-    init_people_queue(&people_by_age, 10);
-    
-    while (!people_by_age.empty()) {
-      Person p = people_by_age.top();
-      p.displayInfo();
-      people_by_age.pop();
-    }
+  srand(time(0));
 
-    std::priority_queue<Person> people_by_birthday; // or maybe here
+  auto generateValues = [](int count, int* out){
+    for (int i = 0; i < count; ++i) out[i] = rand() % 100 + 1;
+  };
+  int values[20];
+  generateValues(20, values);
 
-    // you need something here
+  cout << "SIMPLE" << endl;
+  HashSet hss(2, SIMPLE);
+  initHashSet(hss, values);
+  hss.printHashSet();
 
-    init_people_queue(&people_by_birthday, 10);
+  cout << "LINEAR PROBING" << endl;
+  HashSet hslp(2, LINEAR_PROBING);
+  initHashSet(hslp, values);
+  hslp.printHashSet();
 
-    while (!people_by_birthday.empty()) {
-      Person p = people_by_birthday.top();
-      p.displayInfo();
-      people_by_birthday.pop();
-    }
+  cout << "ROBIN HOOD" << endl;
+  HashSet hsrh(2, ROBIN_HOOD);
+  initHashSet(hsrh, values);
+  hsrh.printHashSet();
+
+  return 0;
 }
-
-
